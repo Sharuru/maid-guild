@@ -1,10 +1,10 @@
-package com.mbp.MaidGuild.servlet3;
+package com.mbp.MaidGuild.servlet;
 
 import com.mbp.MaidGuild.config.SpringRootConfig;
 import com.mbp.MaidGuild.config.SpringWebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class MyWebInitializer extends
+public class WebInitializer extends
 		AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
