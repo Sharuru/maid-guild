@@ -15,6 +15,6 @@
         </environment>
     </environments>
     <mappers>
-        <mapper class="com.mbp.MaidGuild.dao.TestMapper" />
+        <package name="com.mbp.MaidGuild.dao"/>
     </mappers>
 </configuration>

@@ -49,6 +49,7 @@ public class TestController {
 
         model.addObject("title", helloWorldService.getTitle(name));
         model.addObject("msg", helloWorldService.getDesc());
+        //Following in service
         SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
         TestMapper tm = session.getMapper(TestMapper.class);
         List<TestModel> res = tm.selectAllFromTest();
