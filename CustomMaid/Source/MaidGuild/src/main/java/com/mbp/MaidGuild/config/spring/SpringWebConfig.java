@@ -1,4 +1,4 @@
-package com.mbp.MaidGuild.config;
+package com.mbp.MaidGuild.config.spring;
  
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
