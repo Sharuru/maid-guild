@@ -1,7 +1,7 @@
-package com.mbp.MaidGuild.servlet;
+package com.mbp.MaidGuild.config.servlet;
 
-import com.mbp.MaidGuild.config.SpringRootConfig;
-import com.mbp.MaidGuild.config.SpringWebConfig;
+import com.mbp.MaidGuild.config.spring.SpringRootConfig;
+import com.mbp.MaidGuild.config.spring.SpringWebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebInitializer extends

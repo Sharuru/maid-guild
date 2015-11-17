@@ -8,26 +8,26 @@ import org.springframework.util.StringUtils;
 @Service
 public class TestService {
 
-	private static final Logger logger = LoggerFactory.getLogger(TestService.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestService.class);
 
-	public String getDesc() {
+    public String getDesc() {
 
-		logger.debug("getDesc() is executed!");
+        logger.debug("getDesc() is executed!");
 
-		return "Gradle + Spring MVC Hello World Example";
+        return "API Test Panel";
 
-	}
+    }
 
-	public String getTitle(String name) {
+    public String getTitle(String param) {
 
-		logger.debug("getTitle() is executed! $name : {}", name);
+        logger.debug("getTitle() is executed! $param : {}", param);
 
-		if(StringUtils.isEmpty(name)){
-			return "Hello World";
-		}else{
-			return "Hello " + name;
-		}
-		
-	}
+        if (StringUtils.isEmpty(param)) {
+            return "MaidGuid → N/A";
+        } else {
+            return "MaidGuid → " + param;
+        }
+
+    }
 
 }
