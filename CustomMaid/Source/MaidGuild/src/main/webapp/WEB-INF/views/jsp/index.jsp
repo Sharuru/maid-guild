@@ -39,7 +39,7 @@
 </div>
 
 <div class="container">
-
+<p>中文测试：あいうえお：賢い：可愛い：1234567890：乱码测试完毕</p>
 </div>
 
 <spring:url value="/resources/core/css/hello.js" var="coreJs" />

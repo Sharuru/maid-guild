@@ -1,6 +1,10 @@
 package com.mbp.MaidGuild.web;
 
+import com.mbp.MaidGuild.dao.TestMapper;
+import com.mbp.MaidGuild.model.TestModel;
 import com.mbp.MaidGuild.service.TestService;
+import com.mbp.MaidGuild.utils.MyBatisUtil;
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -44,7 +49,12 @@ public class TestController {
 
         model.addObject("title", helloWorldService.getTitle(name));
         model.addObject("msg", helloWorldService.getDesc());
-
+        SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
+        TestMapper tm = session.getMapper(TestMapper.class);
+        List<TestModel> res = tm.selectAllFromTest();
+        for(int i=0;i<res.size();i++){
+            System.out.println(res.get(i).getRecord());
+        }
         return model;
 
     }
