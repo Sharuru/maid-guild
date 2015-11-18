@@ -14,6 +14,28 @@ public class BaiduJson {
     public static class BaiduGeocoderJson {
         //结果状态值
         String status;
+        //结果
+        BaiduGeocoderResult result;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public BaiduGeocoderResult getResult() {
+            return result;
+        }
+
+        public void setResult(BaiduGeocoderResult result) {
+            this.result = result;
+        }
+    }
+
+    //逆地理编码结果
+    public static class BaiduGeocoderResult {
         //坐标
         BaiduLocation location;
         //结构化地址信息
@@ -28,14 +50,6 @@ public class BaiduJson {
         String sematic_description;
         //城市代码（文档中没用，但实际返回存在此字段）
         String cityCode;
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
 
         public BaiduLocation getLocation() {
             return location;

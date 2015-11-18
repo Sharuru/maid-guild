@@ -1,5 +1,7 @@
 package com.mbp.MaidGuild.web;
 
+import com.mbp.MaidGuild.model.BaiduJson.*;
+import com.mbp.MaidGuild.model.GuildJson.*;
 import com.mbp.MaidGuild.service.StartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +29,18 @@ public class StartController {
     @Autowired
     public StartController(StartService startService){this.startService = startService;}
 
-    @RequestMapping(value = "/getCity&location={location}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getCity&location={location:.+}", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView getCity(ModelAndView model ,@PathVariable("location") String location){
-        //ModelAndView model = new ModelAndView();
+    public StartJson getCity(@PathVariable("location") String location){
         logger.info("In /getCity! $location:{}",location);
-        //startService.getBaiduGeocoderJson(location).getAddressComponent().getCity());
-        //startService.getModuleListByCityCode();
-        return model;
+        //对象声明
+        //发起 API 请求获取所在城市位置
+        BaiduGeocoderJson bgj = startService.getBaiduGeocoderJson(location);
+        //拼装 Json 对象
+        StartJson respJson = new StartJson();
+        respJson.setProvince(bgj.getResult().getAddressComponent().getProvince());
+        respJson.setAvalModuleList(startService.getModuleListByCityCode(bgj.getResult().getCityCode()));
+        return respJson;
     }
 
 }
