@@ -23,9 +23,9 @@ public class TestService {
         logger.debug("getTitle() is executed! $param : {}", param);
 
         if (StringUtils.isEmpty(param)) {
-            return "MaidGuid → N/A";
+            return "MaidGuild → N/A";
         } else {
-            return "MaidGuid → " + param;
+            return "MaidGuild → " + param;
         }
 
     }

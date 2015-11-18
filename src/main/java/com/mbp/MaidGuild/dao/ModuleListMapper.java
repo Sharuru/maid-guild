@@ -4,21 +4,20 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
-/**
- * Created by AKI on 2015/11/18.
- */
-public interface APIKeyMapper {
+import java.util.List;
 
+/**
+ * Created by Sharuru on 2015/11/18 0018.
+ */
+public interface ModuleListMapper {
     @Select("SELECT " +
-                    "api_record " +
+                    "avbl_module_id " +
                 "FROM " +
-                    "api_key " +
+                     "module_list " +
                 "WHERE " +
-                    "provider = #{provider} AND delete_flag = '0' " +
-                 "ORDER BY " +
-                    "amount ASC")
+                     "city_code = #{cityCode} AND delete_flag = '0'")
     @Results({
             @Result(property = "apiRecord", column = "api_record")
     })
-    String selectUsableAPIKeyByProvider(String provider);
+    List<String> selectModuleListByCityCode(String cityCode);
 }
