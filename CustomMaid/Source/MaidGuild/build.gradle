@@ -26,6 +26,11 @@ targetCompatibility = 1.8
 
 repositories {
     mavenLocal()
+    // 网络故障临时解决方案
+    maven {
+        name "jcenter"
+        url "http://jcenter.bintray.com/"
+    }
     mavenCentral()
 }
 
@@ -37,6 +42,10 @@ dependencies {
     compile 'org.mybatis:mybatis-spring:1.2.3'
     compile 'org.postgresql:postgresql:9.4-1205-jdbc42'
 	compile 'javax.servlet:jstl:1.2'
+    compile 'commons-io:commons-io:2.4'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.6.3'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.6.3'
 	
 	//include in compile only, exclude in the war
 	providedCompile 'javax.servlet:servlet-api:2.5'
