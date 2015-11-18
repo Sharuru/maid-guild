@@ -33,21 +33,11 @@ public class TestController {
 
     @RequestMapping(value = "/test/{param:.+}", method = RequestMethod.GET)
     public ModelAndView hello(@PathVariable("param") String param) {
-
         logger.debug("hello() is executed - $param {}", param);
-
         ModelAndView model = new ModelAndView();
         model.setViewName("index");
-
         model.addObject("title", testService.getTitle(param));
         model.addObject("msg", testService.getDesc());
-        //Following in service
-/*        SqlSession session = MyBatisUtil.getSqlSessionFactory().openSession();
-        TestMapper tm = session.getMapper(TestMapper.class);
-        List<TestModel> res = tm.selectAllFromTest();
-        for (int i = 0; i < res.size(); i++) {
-            System.out.println(res.get(i).getRecord());
-        }*/
         return model;
 
     }

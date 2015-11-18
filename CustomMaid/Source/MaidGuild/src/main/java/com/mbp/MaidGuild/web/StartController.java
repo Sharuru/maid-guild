@@ -31,10 +31,10 @@ public class StartController {
         this.startService = startService;
     }
 
-    @RequestMapping(value = "/getCity&location={location:.+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/initialize&location={location:.+}", method = RequestMethod.GET)
     @ResponseBody
-    public StartJson getCity(@PathVariable("location") String location) {
-        logger.info("In /getCity! $location:{}", location);
+    public StartJson initialize(@PathVariable("location") String location) {
+        logger.info("In /initialize! $location:{}", location);
         //对象声明
         //发起 API 请求获取所在城市位置
         BaiduGeocoderJson bgj = startService.getBaiduGeocoderJson(location);

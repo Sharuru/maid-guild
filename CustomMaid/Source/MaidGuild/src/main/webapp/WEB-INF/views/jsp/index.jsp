@@ -56,7 +56,11 @@
             url : document.getElementById('reqPath').value,
             success : function(data) {
                 document.getElementById('servReturn').innerText = JSON.stringify(data);
+            },
+            error:function(){
+                document.getElementById('servReturn').innerText = 'Error';
             }
+
         });
     }
 </script>
