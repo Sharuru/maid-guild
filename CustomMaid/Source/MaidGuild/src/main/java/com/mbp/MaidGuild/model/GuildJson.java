@@ -8,7 +8,9 @@ import java.util.List;
 public class GuildJson {
 
     public static class StartJson {
+        //省市名
         String province;
+        //可用模块列表
         List<String> avalModuleList;
 
         public String getProvince() {
