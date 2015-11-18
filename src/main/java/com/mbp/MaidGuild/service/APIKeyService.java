@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by peixun on 2015/11/18.
+ * Created by Sharuru on 2015/11/18.
  */
 @Service
 public class APIKeyService {

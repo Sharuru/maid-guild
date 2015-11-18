@@ -1,9 +1,11 @@
 package com.mbp.MaidGuild.utils;
+
 import org.apache.commons.io.IOUtils;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+
 /**
  * Created by Sharuru on 2015/11/18 0018.
  */
