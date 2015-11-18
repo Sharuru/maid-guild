@@ -27,13 +27,13 @@ public class StartController {
     @Autowired
     public StartController(StartService startService){this.startService = startService;}
 
-    @RequestMapping(value = "/getCity&location={location}}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getCity&location={location}", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getCity(ModelAndView model ,@PathVariable("location") String location){
         //ModelAndView model = new ModelAndView();
         logger.info("In /getCity! $location:{}",location);
-        startService.getBaiduGeocoderJson(location);
-        System.out.println("in abc");
+        //startService.getBaiduGeocoderJson(location).getAddressComponent().getCity());
+        //startService.getModuleListByCityCode();
         return model;
     }
 

@@ -17,6 +17,8 @@ public class APIKeyModel {
     private Integer amount;
     // 上一次使用时间
     private Date lastCall;
+    //删除标记
+    private Integer deleteFlag;
 
     public Integer getRecordId() {
         return recordId;
@@ -56,5 +58,13 @@ public class APIKeyModel {
 
     public void setLastCall(Date lastCall) {
         this.lastCall = lastCall;
+    }
+
+    public Integer getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
 }
