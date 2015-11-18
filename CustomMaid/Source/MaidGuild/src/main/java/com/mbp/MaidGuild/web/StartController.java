@@ -8,10 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Sharuru on 2015/11/18 0018.
@@ -32,9 +29,9 @@ public class StartController {
         this.startService = startService;
     }
 
-    @RequestMapping(value = "/getModuleList&location={location:.+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/modules", method = RequestMethod.GET)
     @ResponseBody
-    public StartJson initialize(@PathVariable("location") String location) {
+    public StartJson initialize(@RequestParam String location) {
         logger.info("In /initialize! $location:{}", location);
         //对象声明
         //发起 API 请求获取所在城市位置
