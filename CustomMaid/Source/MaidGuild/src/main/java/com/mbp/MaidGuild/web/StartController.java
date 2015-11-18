@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@RequestMapping(value = "/start")
+@RequestMapping(value = "/initialize")
 public class StartController {
 
     //日志记录支持
@@ -31,7 +32,7 @@ public class StartController {
         this.startService = startService;
     }
 
-    @RequestMapping(value = "/initialize&location={location:.+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getModuleList&location={location:.+}", method = RequestMethod.GET)
     @ResponseBody
     public StartJson initialize(@PathVariable("location") String location) {
         logger.info("In /initialize! $location:{}", location);
@@ -40,8 +41,21 @@ public class StartController {
         BaiduGeocoderJson bgj = startService.getBaiduGeocoderJson(location);
         //拼装 Json 对象
         StartJson respJson = new StartJson();
-        respJson.setProvince(bgj.getResult().getAddressComponent().getProvince());
-        respJson.setAvalModuleList(startService.getModuleListByCityCode(bgj.getResult().getCityCode()));
+        //成功响应
+        if ("0".equals(bgj.getStatus())) {
+            //且有可读解析结果
+            if(!StringUtils.isEmpty(bgj.getResult().getAddressComponent().getProvince())){
+                respJson.setResponse(bgj.getStatus());
+                respJson.setProvince(bgj.getResult().getAddressComponent().getProvince());
+                respJson.setAvalModuleList(startService.getModuleListByCityCode(bgj.getResult().getCityCode()));
+            }
+            else{
+                //虽成功响应但无可读结果
+                respJson.setResponse(bgj.getStatus() + ": No result found");
+            }
+        } else {
+            respJson.setResponse(bgj.getStatus() + ": " + bgj.getMsg());
+        }
         return respJson;
     }
 
