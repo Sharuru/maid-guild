@@ -17,7 +17,7 @@ public interface ModuleListMapper {
                 "WHERE " +
                      "city_code = #{cityCode} AND delete_flag = '0'")
     @Results({
-            @Result(property = "apiRecord", column = "api_record")
+            @Result(property = "avblModuleId", column = "avbl_module_id")
     })
     List<String> selectModuleListByCityCode(String cityCode);
 }

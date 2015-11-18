@@ -4,40 +4,40 @@ package com.mbp.MaidGuild.model;
  * Created by Sharuru on 2015/11/18 0018.
  */
 public class ModuleListModel {
-    Integer record_id;
-    String city_code;
-    String avbl_module_id;
-    Integer delete_flag;
+    Integer recordId;
+    String cityCode;
+    String avblModuleId;
+    Integer deleteFlag;
 
-    public Integer getRecord_id() {
-        return record_id;
+    public Integer getRecordId() {
+        return recordId;
     }
 
-    public void setRecord_id(Integer record_id) {
-        this.record_id = record_id;
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
     }
 
-    public String getCity_code() {
-        return city_code;
+    public String getCityCode() {
+        return cityCode;
     }
 
-    public void setCity_code(String city_code) {
-        this.city_code = city_code;
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
     }
 
-    public String getAvbl_module_id() {
-        return avbl_module_id;
+    public String getAvblModuleId() {
+        return avblModuleId;
     }
 
-    public void setAvbl_module_id(String avbl_module_id) {
-        this.avbl_module_id = avbl_module_id;
+    public void setAvblModuleId(String avblModuleId) {
+        this.avblModuleId = avblModuleId;
     }
 
-    public Integer getDelete_flag() {
-        return delete_flag;
+    public Integer getDeleteFlag() {
+        return deleteFlag;
     }
 
-    public void setDelete_flag(Integer delete_flag) {
-        this.delete_flag = delete_flag;
+    public void setDeleteFlag(Integer deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
 }
