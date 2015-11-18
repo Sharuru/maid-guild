@@ -16,6 +16,8 @@ public class BaiduJson {
         String status;
         //结果
         BaiduGeocoderResult result;
+        //响应信息
+        String msg;
 
         public String getStatus() {
             return status;
@@ -31,6 +33,14 @@ public class BaiduJson {
 
         public void setResult(BaiduGeocoderResult result) {
             this.result = result;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
         }
     }
 
