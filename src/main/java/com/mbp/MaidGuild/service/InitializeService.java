@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Sharuru on 2015/11/18 0018.
  */
 @Service
-public class StartService {
+public class InitializeService {
 
     //日志记录支持
     private final Logger logger = LoggerFactory.getLogger(TestController.class);
