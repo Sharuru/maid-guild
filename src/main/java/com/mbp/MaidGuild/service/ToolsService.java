@@ -29,8 +29,6 @@ public class ToolsService {
         param.put("apikey", apiKeyService.selectUsableAPIKeyByProvider("BAIDUAPISTORE"));
         //拼接请求字符串获得内容
         try {
-            String url = "http://apis.baidu.com/apistore/tranlateservice/translate?query=" + URLEncoder.encode(src, "UTF-8") + "&from=" + from + "&to=" + to;
-            System.out.println(url);
             jsonStr = APIUtil.readUrl( "http://apis.baidu.com/apistore/tranlateservice/translate?query=" + URLEncoder.encode(src, "UTF-8") + "&from=" + from + "&to=" + to, param);
             Gson gson = new Gson();
             obj = gson.fromJson(jsonStr, TranslationJson.class);
