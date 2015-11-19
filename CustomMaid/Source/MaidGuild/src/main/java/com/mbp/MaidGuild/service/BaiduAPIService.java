@@ -1,7 +1,7 @@
 package com.mbp.MaidGuild.service;
 
 import com.google.gson.Gson;
-import com.mbp.MaidGuild.model.BaiduJson.BaiduGeocoderJson;
+import com.mbp.MaidGuild.model.GeocoderModel.GeocoderJson;
 import com.mbp.MaidGuild.utils.APIUtil;
 import com.mbp.MaidGuild.web.TestController;
 import org.slf4j.Logger;
@@ -17,14 +17,14 @@ public class BaiduAPIService {
     private final Logger logger = LoggerFactory.getLogger(TestController.class);
     APIKeyService apiKeyService = new APIKeyService();
 
-    public BaiduGeocoderJson selectBaiduGeocoderJson(String location) {
+    public GeocoderJson selectBaiduGeocoderJson(String location) {
         String jsonStr;
-        BaiduGeocoderJson obj = null;
+        GeocoderJson obj = null;
         // 拼接请求字符串获得内容
         try {
-            jsonStr = APIUtil.readUrl("http://api.map.baidu.com/geocoder/v2/?ak=" + apiKeyService.selectUsableAPIKeyByProvider("BAIDUWEB") + "&location=" + location + "&output=json");
+            jsonStr = APIUtil.readUrl("http://api.map.baidu.com/geocoder/v2/?ak=" + apiKeyService.selectUsableAPIKeyByProvider("BAIDUWEB") + "&location=" + location + "&output=json", null);
             Gson gson = new Gson();
-            obj = gson.fromJson(jsonStr, BaiduGeocoderJson.class);
+            obj = gson.fromJson(jsonStr, GeocoderJson.class);
         } catch (Exception e) {
             logger.error(e.getMessage());
             //e.printStackTrace();

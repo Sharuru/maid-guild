@@ -1,7 +1,7 @@
 package com.mbp.MaidGuild.web;
 
-import com.mbp.MaidGuild.model.BaiduJson.BaiduGeocoderJson;
-import com.mbp.MaidGuild.model.GuildJson.StartJson;
+import com.mbp.MaidGuild.model.GeocoderModel.GeocoderJson;
+import com.mbp.MaidGuild.model.InitializeModel.StartJson;
 import com.mbp.MaidGuild.service.StartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +31,8 @@ public class StartController {
     @ResponseBody
     public StartJson initialize(@RequestParam String location) {
         logger.info("In /initialize! $location:{}", location);
-        //对象声明
         //发起 API 请求获取所在城市位置
-        BaiduGeocoderJson bgj = startService.getBaiduGeocoderJson(location);
+        GeocoderJson bgj = startService.getBaiduGeocoderJson(location);
         return startService.parseStartJson(bgj);
     }
 

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Sharuru on 2015/11/18 0018.
  */
-public class GuildJson {
+public class InitializeModel {
 
     public static class StartJson {
         //响应结果

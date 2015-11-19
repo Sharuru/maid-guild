@@ -2,6 +2,7 @@ package com.mbp.MaidGuild.model;
 
 public class TestModel {
     Integer recordId;
+    String record;
 
     public String getRecord() {
         return record;
@@ -10,8 +11,6 @@ public class TestModel {
     public void setRecord(String record) {
         this.record = record;
     }
-
-    String record;
 
     public Integer getRecordId() {
         return recordId;
