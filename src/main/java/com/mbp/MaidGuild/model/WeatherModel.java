@@ -5,8 +5,11 @@ package com.mbp.MaidGuild.model;
  */
 public class WeatherModel {
     public static class WeatherJson {
+        //状态码
         String errNum;
+        //状态信息
         String errMsg;
+        //返回数据
         RetData retData;
 
         public String getErrNum() {
@@ -35,10 +38,15 @@ public class WeatherModel {
     }
 
     public static class RetData {
+        //城市
         String city;
+        //城市 ID
         String cityid;
+        //今日天气情报
         Today today;
+        //未来天气情报
         Forecast[] forecast;
+        //历史天气情报
         History[] history;
 
         public String getCity() {
@@ -83,15 +91,25 @@ public class WeatherModel {
     }
 
     public static class Today {
+        //日期
         String data;
+        //星期
         String week;
+        //当前温度
         String curTemp;
+        //AQI 指数
         String aqi;
+        //风向
         String fengxiang;
+        //风力
         String fengli;
+        //最高温度
         String hightemp;
+        //最低温度
         String lowtemp;
+        //天气状况类型
         String type;
+        //生活指数
         Index[] index;
 
         public String getData() {
@@ -176,10 +194,15 @@ public class WeatherModel {
     }
 
     public static class Index {
+        //指数名称
         String name;
+        //指数代码
         String code;
+        //指数类型
         String index;
+        //详情
         String details;
+        //别名
         String otherName;
 
         public String getName() {
