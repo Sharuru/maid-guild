@@ -11,11 +11,11 @@ import java.util.List;
  */
 public interface ModuleListMapper {
     @Select("SELECT " +
-                    "avbl_module_id " +
-                "FROM " +
-                     "module_list " +
-                "WHERE " +
-                     "city_code = #{cityCode} AND delete_flag = '0'")
+            "avbl_module_id " +
+            "FROM " +
+            "module_list " +
+            "WHERE " +
+            "city_code = #{cityCode} AND delete_flag = '0'")
     @Results({
             @Result(property = "avblModuleId", column = "avbl_module_id")
     })

@@ -4,18 +4,18 @@ package com.mbp.MaidGuild.model;
  * Created by Sharuru on 2015/11/18 0018.
  * 解析 Json 时需要的对应 POJO
  */
-public class BaiduJson {
+public class GeocoderModel {
 
     //Baidu 逆地理编码 POJO
     //根据对应 API 接口返回的状态字段进行声明
     // 一般默认都是 String 型，特别类型看以下的 Sample 应该能明白
     //每个 POJO 都要有对应的 getter/setter 方法
     //理论上只要写全需要获取数据部分的状态字段即可，此 Sample 是写完整的
-    public static class BaiduGeocoderJson {
+    public static class GeocoderJson {
         //结果状态值
         String status;
         //结果
-        BaiduGeocoderResult result;
+        Result result;
         //响应信息
         String msg;
 
@@ -27,11 +27,11 @@ public class BaiduJson {
             this.status = status;
         }
 
-        public BaiduGeocoderResult getResult() {
+        public Result getResult() {
             return result;
         }
 
-        public void setResult(BaiduGeocoderResult result) {
+        public void setResult(Result result) {
             this.result = result;
         }
 
@@ -45,27 +45,27 @@ public class BaiduJson {
     }
 
     //逆地理编码结果
-    public static class BaiduGeocoderResult {
+    public static class Result {
         //坐标
-        BaiduLocation location;
+        Location location;
         //结构化地址信息
         String formatted_address;
         //所在商圈信息
         String business;
         //地址组
-        BaiduAddressComponent addressComponent;
+        AddressComponent addressComponent;
         //周边兴趣点组
-        BaiduPois[] pois;
+        Pois[] pois;
         //语义化描述
         String sematic_description;
         //城市代码（文档中没用，但实际返回存在此字段）
         String cityCode;
 
-        public BaiduLocation getLocation() {
+        public Location getLocation() {
             return location;
         }
 
-        public void setLocation(BaiduLocation location) {
+        public void setLocation(Location location) {
             this.location = location;
         }
 
@@ -85,19 +85,19 @@ public class BaiduJson {
             this.business = business;
         }
 
-        public BaiduAddressComponent getAddressComponent() {
+        public AddressComponent getAddressComponent() {
             return addressComponent;
         }
 
-        public void setAddressComponent(BaiduAddressComponent addressComponent) {
+        public void setAddressComponent(AddressComponent addressComponent) {
             this.addressComponent = addressComponent;
         }
 
-        public BaiduPois[] getPois() {
+        public Pois[] getPois() {
             return pois;
         }
 
-        public void setPois(BaiduPois[] pois) {
+        public void setPois(Pois[] pois) {
             this.pois = pois;
         }
 
@@ -119,7 +119,7 @@ public class BaiduJson {
     }
 
     //坐标
-    public static class BaiduLocation {
+    public static class Location {
         //纬度坐标
         String lat;
         //经度坐标
@@ -143,7 +143,7 @@ public class BaiduJson {
     }
 
     //地址组
-    public static class BaiduAddressComponent {
+    public static class AddressComponent {
         //城市名
         String city;
         //国家
@@ -237,7 +237,7 @@ public class BaiduJson {
     }
 
     //周边兴趣点组
-    public static class BaiduPois {
+    public static class Pois {
         //地址信息
         String addr;
         //数据来源
@@ -251,7 +251,7 @@ public class BaiduJson {
         //POI 类型
         String poiType;
         //POI 坐标
-        BaiduPoint point;
+        Point point;
         //POI 标签
         String tag;
         //电话
@@ -309,11 +309,11 @@ public class BaiduJson {
             this.poiType = poiType;
         }
 
-        public BaiduPoint getPoint() {
+        public Point getPoint() {
             return point;
         }
 
-        public void setPoint(BaiduPoint point) {
+        public void setPoint(Point point) {
             this.point = point;
         }
 
@@ -351,7 +351,7 @@ public class BaiduJson {
     }
 
     //POI 坐标
-    public static class BaiduPoint {
+    public static class Point {
         //POI X
         String x;
         //POI Y

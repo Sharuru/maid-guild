@@ -5,6 +5,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Map;
 
 /**
  * Created by Sharuru on 2015/11/18 0018.
@@ -17,9 +18,14 @@ public class APIUtil {
      * @return 响应字符串
      * @throws Exception
      */
-    public static String readUrl(String urlString) throws Exception {
+    public static String readUrl(String urlString, Map<String, String> param) throws Exception {
         URL url = new URL(urlString);
         URLConnection con = url.openConnection();
+        if (param != null) {
+            for (Map.Entry<String, String> entry : param.entrySet()) {
+                con.setRequestProperty(entry.getKey(), entry.getValue());
+            }
+        }
         InputStream in = con.getInputStream();
         String encoding = con.getContentEncoding();
         encoding = encoding == null ? "UTF-8" : encoding;

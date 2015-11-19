@@ -10,13 +10,13 @@ import org.apache.ibatis.annotations.Select;
 public interface APIKeyMapper {
 
     @Select("SELECT " +
-                    "api_record " +
-                "FROM " +
-                    "api_key " +
-                "WHERE " +
-                    "provider = #{provider} AND delete_flag = '0' " +
-                 "ORDER BY " +
-                    "amount ASC")
+            "api_record " +
+            "FROM " +
+            "api_key " +
+            "WHERE " +
+            "provider = #{provider} AND delete_flag = '0' " +
+            "ORDER BY " +
+            "amount ASC")
     @Results({
             @Result(property = "apiRecord", column = "api_record")
     })

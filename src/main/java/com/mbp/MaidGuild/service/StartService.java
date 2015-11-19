@@ -1,7 +1,7 @@
 package com.mbp.MaidGuild.service;
 
-import com.mbp.MaidGuild.model.BaiduJson.BaiduGeocoderJson;
-import com.mbp.MaidGuild.model.GuildJson.StartJson;
+import com.mbp.MaidGuild.model.GeocoderModel.GeocoderJson;
+import com.mbp.MaidGuild.model.InitializeModel.StartJson;
 import com.mbp.MaidGuild.web.TestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class StartService {
     BaiduAPIService baiduAPIService = new BaiduAPIService();
     ModuleListService moduleListService = new ModuleListService();
 
-    public BaiduGeocoderJson getBaiduGeocoderJson(String location) {
+    public GeocoderJson getBaiduGeocoderJson(String location) {
         return baiduAPIService.selectBaiduGeocoderJson(location);
     }
 
@@ -30,7 +30,7 @@ public class StartService {
         return moduleListService.selectModuleListByCityCode(cityCode);
     }
 
-    public StartJson parseStartJson(BaiduGeocoderJson bgj) {
+    public StartJson parseStartJson(GeocoderJson bgj) {
         //拼装自定义 Json
         StartJson respJson = new StartJson();
         //成功响应
