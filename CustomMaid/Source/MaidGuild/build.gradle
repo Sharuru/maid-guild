@@ -3,7 +3,7 @@ apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 //apply plugin: 'jetty'
 apply plugin: 'org.akhikhl.gretty'
-
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 buildscript {
   repositories {
     jcenter()

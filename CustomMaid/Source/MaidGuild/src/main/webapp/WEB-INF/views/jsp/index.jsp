@@ -40,7 +40,8 @@
 
 
 <spring:url value="/resources/js/bootstrap.min.js" var="bootstrapJs"/>
-<script src="/resources/js/jquery.min.js"></script>
+<spring:url value="/resources/js/jquery.min.js" var="jqJs"/>
+<script src="${jqJs}"></script>
 <script src="${bootstrapJs}"></script>
 <script type="text/javascript">
     $(document).ready(function() {
