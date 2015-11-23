@@ -23,7 +23,7 @@ public class InitializeService {
     ModuleListService moduleListService = new ModuleListService();
 
     public GeocoderJson getBaiduGeocoderJson(String location) {
-        return baiduAPIService.selectBaiduGeocoderJson(location);
+        return baiduAPIService.getBaiduGeocoderJson(location);
     }
 
     public List<String> getModuleListByCityCode(String cityCode) {

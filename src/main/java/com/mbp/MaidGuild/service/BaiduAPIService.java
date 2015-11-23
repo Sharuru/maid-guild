@@ -17,7 +17,7 @@ public class BaiduAPIService {
     private final Logger logger = LoggerFactory.getLogger(TestController.class);
     APIKeyService apiKeyService = new APIKeyService();
 
-    public GeocoderJson selectBaiduGeocoderJson(String location) {
+    public GeocoderJson getBaiduGeocoderJson(String location) {
         String jsonStr;
         GeocoderJson obj = null;
         // 拼接请求字符串获得内容
