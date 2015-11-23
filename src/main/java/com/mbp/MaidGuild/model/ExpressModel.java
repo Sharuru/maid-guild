@@ -19,6 +19,13 @@ public class ExpressModel {
         //不明
         String condition;
         //配送状态
+        //0: 运输中
+        //1: 已揽件
+        //2: 疑难件
+        //3: 已签收
+        //4: 已退回
+        //5: 派件中
+        //6: 退回中
         String state;
         //溯源信息
         Data[] data;
