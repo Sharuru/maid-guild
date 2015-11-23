@@ -22,7 +22,7 @@ public class BaiduAPIService {
         GeocoderJson obj = null;
         // 拼接请求字符串获得内容
         try {
-            jsonStr = APIUtil.readUrl("http://api.map.baidu.com/geocoder/v2/?ak=" + apiKeyService.selectUsableAPIKeyByProvider("BAIDUWEB") + "&location=" + location + "&output=json", null);
+            jsonStr = APIUtil.readUrl("http://api.map.baidu.com/geocoder/v2/?ak=" + apiKeyService.getUsableAPIKeyByProvider("BAIDUWEB") + "&location=" + location + "&output=json", null);
             Gson gson = new Gson();
             obj = gson.fromJson(jsonStr, GeocoderJson.class);
         } catch (Exception e) {
