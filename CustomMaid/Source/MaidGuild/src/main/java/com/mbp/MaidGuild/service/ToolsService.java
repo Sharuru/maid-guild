@@ -1,6 +1,7 @@
 package com.mbp.MaidGuild.service;
 
 import com.google.gson.Gson;
+import com.mbp.MaidGuild.model.ExpressModel.ExpressJson;
 import com.mbp.MaidGuild.model.TranslationModel.TranslationJson;
 import com.mbp.MaidGuild.utils.APIUtil;
 import com.mbp.MaidGuild.web.TestController;
@@ -36,6 +37,19 @@ public class ToolsService {
         } catch (Exception e) {
             logger.error(e.getMessage());
             //e.printStackTrace();
+        }
+        return obj;
+    }
+    public ExpressJson getExpressJson(String company, String postId) {
+        String jsonStr;
+        ExpressJson obj = null;
+        //拼接请求字符串获得内容
+        try {
+            jsonStr = APIUtil.readUrl("http://www.kuaidi100.com/query?type=" + company + "&postid=" + postId, null);
+            Gson gson = new Gson();
+            obj = gson.fromJson(jsonStr, ExpressJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
         return obj;
     }
