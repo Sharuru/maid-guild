@@ -25,7 +25,7 @@ public class WeatherService {
         String jsonStr;
         WeatherJson obj = null;
         Map<String, String> param = new HashMap<>();
-        param.put("apikey", apiKeyService.selectUsableAPIKeyByProvider("BAIDUAPISTORE"));
+        param.put("apikey", apiKeyService.getUsableAPIKeyByProvider("BAIDUAPISTORE"));
         //拼接请求字符串获得内容
         try {
             jsonStr = APIUtil.readUrl("http://apis.baidu.com/apistore/weatherservice/recentweathers?cityid=" + cityId, param);

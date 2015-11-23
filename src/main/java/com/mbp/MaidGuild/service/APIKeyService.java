@@ -25,7 +25,7 @@ public class APIKeyService {
      * @param provider 提供方表示
      * @return API KEY
      */
-    String selectUsableAPIKeyByProvider(String provider) {
+    String getUsableAPIKeyByProvider(String provider) {
         return akm.selectUsableAPIKeyByProvider(provider);
     }
 
