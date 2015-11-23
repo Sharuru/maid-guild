@@ -34,10 +34,10 @@ public class ToolsController {
 
     @RequestMapping(value = "/express", method = RequestMethod.GET)
     @ResponseBody
-    public ExpressJson express(@RequestParam String company, @RequestParam String postId) {
-        logger.info("In /express $company:{}, $postId{}", company, postId);
+    public ExpressJson express(@RequestParam String company, @RequestParam String postid) {
+        logger.info("In /express $company:{}, $postId{}", company, postid);
         //根据公司与单号返回数据
-        return toolsService.getExpressJson(company, postId);
+        return toolsService.getExpressJson(company, postid);
     }
 
 }
