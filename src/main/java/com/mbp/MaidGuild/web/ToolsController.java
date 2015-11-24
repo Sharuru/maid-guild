@@ -2,6 +2,7 @@ package com.mbp.MaidGuild.web;
 
 import com.mbp.MaidGuild.model.ExpressModel.ExpressJson;
 import com.mbp.MaidGuild.model.LotteryModel.LotteryJson;
+import com.mbp.MaidGuild.model.StockModel.StockJson;
 import com.mbp.MaidGuild.model.TranslationModel.TranslationJson;
 import com.mbp.MaidGuild.service.ToolsService;
 import org.slf4j.Logger;
@@ -47,6 +48,14 @@ public class ToolsController {
         logger.info("In /lottery $code:{}", code);
         //根据彩种返回数据
         return toolsService.getLotteryJson(code);
+    }
+
+    @RequestMapping(value = "/stock", method = RequestMethod.GET)
+    @ResponseBody
+    public StockJson stock(@RequestParam String code) {
+        logger.info("In /stock $code:{}", code);
+        //根据股票代码返回数据
+        return toolsService.getStrockJson(code);
     }
 
 }
