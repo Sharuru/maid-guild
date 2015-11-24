@@ -3,6 +3,7 @@ package com.mbp.MaidGuild.service;
 import com.google.gson.Gson;
 import com.mbp.MaidGuild.model.ExpressModel.ExpressJson;
 import com.mbp.MaidGuild.model.LotteryModel.LotteryJson;
+import com.mbp.MaidGuild.model.StockModel.StockJson;
 import com.mbp.MaidGuild.model.TranslationModel.TranslationJson;
 import com.mbp.MaidGuild.utils.APIUtil;
 import com.mbp.MaidGuild.web.TestController;
@@ -69,5 +70,20 @@ public class ToolsService {
         }
         return obj;
     }
+
+    public StockJson getStrockJson(String code) {
+        String jsonStr;
+        StockJson obj = null;
+        //拼接请求字符串获得内容
+        try {
+            jsonStr = APIUtil.readUrl("http://web.juhe.cn:8080/finance/stock/hs?gid=" + code + "&key=" + apiKeyService.getUsableAPIKeyByProvider("STOCK"), null);
+            Gson gson = new Gson();
+            obj = gson.fromJson(jsonStr, StockJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return obj;
+    }
+
 
 }
