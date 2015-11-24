@@ -71,7 +71,7 @@ public class ToolsService {
         return obj;
     }
 
-    public StockJson getStrockJson(String code) {
+    public StockJson getStockJson(String code) {
         String jsonStr;
         StockJson obj = null;
         //拼接请求字符串获得内容

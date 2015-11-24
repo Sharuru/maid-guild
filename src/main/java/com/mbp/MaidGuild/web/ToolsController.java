@@ -55,7 +55,7 @@ public class ToolsController {
     public StockJson stock(@RequestParam String code) {
         logger.info("In /stock $code:{}", code);
         //根据股票代码返回数据
-        return toolsService.getStrockJson(code);
+        return toolsService.getStockJson(code);
     }
 
 }
