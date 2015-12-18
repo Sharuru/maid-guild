@@ -1,5 +1,6 @@
 package com.mbp.MaidGuild.web;
 
+import com.mbp.MaidGuild.model.ExchangeModel.ExchangeJson;
 import com.mbp.MaidGuild.model.ExpressModel.ExpressJson;
 import com.mbp.MaidGuild.model.LotteryModel.LotteryJson;
 import com.mbp.MaidGuild.model.StockModel.StockJson;
@@ -56,6 +57,14 @@ public class ToolsController {
         logger.info("In /stock $code:{}", code);
         //根据股票代码返回数据
         return toolsService.getStockJson(code);
+    }
+
+    @RequestMapping(value="/exchange", method = RequestMethod.GET)
+    @ResponseBody
+    public ExchangeJson exchange(@RequestParam String bank){
+        logger.info("In /exchange $bank:{}", bank);
+        //返回汇率信息
+        return toolsService.getExchangeJson(bank);
     }
 
 }

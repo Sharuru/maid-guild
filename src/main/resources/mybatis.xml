@@ -8,7 +8,7 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="org.postgresql.Driver"/>
-                <property name="url" value="jdbc:postgresql://172.16.66.121:5432/maid_pocket"/>
+                <property name="url" value="jdbc:postgresql://127.0.0.1:5432/maid_pocket"/>
                 <property name="username" value="postgres"/>
                 <property name="password" value="abcd.1234"/>
             </dataSource>
