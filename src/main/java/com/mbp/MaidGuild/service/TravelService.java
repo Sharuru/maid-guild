@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.mbp.MaidGuild.model.LongDBusModel.LongDBusJson;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByIdJson;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByStationJson;
+import com.mbp.MaidGuild.model.RoadsModel.RoadsJson;
 import com.mbp.MaidGuild.utils.APIUtil;
 import com.mbp.MaidGuild.web.TestController;
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Sharuru on 2015/11/23 0023.
@@ -62,6 +65,23 @@ public class TravelService {
         } catch (Exception e) {
             logger.error(e.getMessage());
             e.printStackTrace();
+        }
+        return obj;
+    }
+
+    public RoadsJson getRoadsJson(String location) {
+        String jsonStr;
+        RoadsJson obj = null;
+        Map<String, String> param = new HashMap<>();
+        param.put("apikey", apiKeyService.getUsableAPIKeyByProvider("BAIDUAPISTORE"));
+        //拼接请求字符串获得内容
+        try {
+            jsonStr = APIUtil.readUrl("http://apis.baidu.com/apistore/trafficevent/search?location=北京&output=json", param);
+            //jsonStr = APIUtil.readUrl("http://api.map.baidu.com/telematics/v3/trafficEvent?location=" + URLEncoder.encode(location, "UTF-8") + "&output=json&ak=" + apiKeyService.getUsableAPIKeyByProvider("BAIDUWEB"), null);
+            Gson gson = new Gson();
+            obj = gson.fromJson(jsonStr, RoadsJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
         return obj;
     }
