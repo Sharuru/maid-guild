@@ -3,6 +3,7 @@ package com.mbp.MaidGuild.web;
 import com.mbp.MaidGuild.model.LongDBusModel.LongDBusJson;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByIdJson;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByStationJson;
+import com.mbp.MaidGuild.model.RoadsModel.RoadsJson;
 import com.mbp.MaidGuild.service.TravelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,5 +46,12 @@ public class TravelController {
     public TrainTimeByStationJson trainStation(@RequestParam String from, @RequestParam String to) {
         logger.info("In /train/station $from:{}, $to:{}", from, to);
         return travelService.getTrainTimeByStationJson(from, to);
+    }
+
+    @RequestMapping(value = "/roads", method = RequestMethod.GET)
+    @ResponseBody
+    public RoadsJson roads(@RequestParam String location) {
+        logger.info("In /roads $location:{}", location);
+        return travelService.getRoadsJson(location);
     }
 }
