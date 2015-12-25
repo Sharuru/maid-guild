@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -39,31 +38,28 @@ public class TravelService {
             int listHead = jsonStr.indexOf("\"list\":[");
             int listTail = jsonStr.indexOf("\"error_code\"");
             String listStr = jsonStr.substring(listHead + 8);
-            System.out.println(listStr);
-            //对list进行去重
+            //对list去重
             String regex = "\\{.*?}";
             Pattern p = Pattern.compile(regex);
             Matcher m = p.matcher(listStr);
             //原始头拼接
-            StringBuilder sb = new StringBuilder(jsonStr.substring(0, listHead+ 8));
+            StringBuilder trimmedJsonSlr = new StringBuilder(jsonStr.substring(0, listHead + 8));
             //匹配
             while (m.find()) {
                 //且不存在相同记录
-                if (sb.indexOf(m.group(0)) == -1) {
+                if (trimmedJsonSlr.indexOf(m.group(0)) == -1) {
                     //拼接
-                    sb.append(m.group(0));
-                    sb.append(",");
+                    trimmedJsonSlr.append(m.group(0));
+                    trimmedJsonSlr.append(",");
                 }
             }
             //list尾修正
-            sb.deleteCharAt(sb.length()-1);
-            sb.append("]},");
+            trimmedJsonSlr.deleteCharAt(trimmedJsonSlr.length() - 1);
+            trimmedJsonSlr.append("]},");
             //原始尾拼接
-            sb.append(jsonStr.substring(listTail));
-            System.out.println(sb);
-
+            trimmedJsonSlr.append(jsonStr.substring(listTail));
             Gson gson = new Gson();
-            obj = gson.fromJson(sb.toString(), LongDBusJson.class);
+            obj = gson.fromJson(trimmedJsonSlr.toString(), LongDBusJson.class);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
@@ -100,6 +96,7 @@ public class TravelService {
         return obj;
     }
 
+    //The following API is unstable
     public RoadsJson getRoadsJson(String location) {
         String jsonStr;
         RoadsJson obj = null;
