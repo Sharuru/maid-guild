@@ -12,8 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Sharuru on 2015/11/23 0023.
@@ -31,8 +34,36 @@ public class TravelService {
         //拼接请求字符串获得内容
         try {
             jsonStr = APIUtil.readUrl("http://op.juhe.cn/onebox/bus/query_ab?key=" + apiKeyService.getUsableAPIKeyByProvider("LONGDBUS") + "&from=" + URLEncoder.encode(from, "UTF-8") + "&to=" + URLEncoder.encode(to, "UTF-8"), null);
+            //结果去重处理
+            //先获得list结果
+            int listHead = jsonStr.indexOf("\"list\":[");
+            int listTail = jsonStr.indexOf("\"error_code\"");
+            String listStr = jsonStr.substring(listHead + 8);
+            System.out.println(listStr);
+            //对list进行去重
+            String regex = "\\{.*?}";
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(listStr);
+            //原始头拼接
+            StringBuilder sb = new StringBuilder(jsonStr.substring(0, listHead+ 8));
+            //匹配
+            while (m.find()) {
+                //且不存在相同记录
+                if (sb.indexOf(m.group(0)) == -1) {
+                    //拼接
+                    sb.append(m.group(0));
+                    sb.append(",");
+                }
+            }
+            //list尾修正
+            sb.deleteCharAt(sb.length()-1);
+            sb.append("]},");
+            //原始尾拼接
+            sb.append(jsonStr.substring(listTail));
+            System.out.println(sb);
+
             Gson gson = new Gson();
-            obj = gson.fromJson(jsonStr, LongDBusJson.class);
+            obj = gson.fromJson(sb.toString(), LongDBusJson.class);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
