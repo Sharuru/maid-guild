@@ -1,18 +1,26 @@
 package com.mbp.MaidGuild.service;
 
 import com.google.gson.Gson;
+import com.mbp.MaidGuild.dao.MetroInfoMapper;
 import com.mbp.MaidGuild.model.LongDBusModel.LongDBusJson;
+import com.mbp.MaidGuild.model.MetroInfoModel;
+import com.mbp.MaidGuild.model.MetroModel;
+import com.mbp.MaidGuild.model.ShMetroModel;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByIdJson;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByStationJson;
 import com.mbp.MaidGuild.model.RoadsModel.RoadsJson;
 import com.mbp.MaidGuild.utils.APIUtil;
+import com.mbp.MaidGuild.utils.MyBatisUtil;
 import com.mbp.MaidGuild.web.TestController;
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -113,4 +121,59 @@ public class TravelService {
         }
         return obj;
     }
+
+    public MetroModel.MetroJson getShanghaiMetroJson(String o, String d, String t) {
+        //首先先获取原始 Json
+        //路径
+        ShMetroModel.ShMetroCJson cObj = null;
+        try {
+            Gson gson = new Gson();
+            cObj = gson.fromJson(APIUtil.readUrl("http://service.shmetro.com/i/c?o=" + o + "&d=" + d + "&t=" + t, null), ShMetroModel.ShMetroCJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        //票价
+        ShMetroModel.ShMetroPJson pObj = null;
+        try {
+            Gson gson = new Gson();
+            pObj = gson.fromJson(APIUtil.readUrl("http://service.shmetro.com/i/p?o=" + o + "&d=" + d + "&t=" + t, null), ShMetroModel.ShMetroPJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        //拼接
+        MetroModel.MetroJson obj = new MetroModel.MetroJson();
+        //生成查询词典
+        Map<String, String> shMetroMap = new HashMap<>();
+        SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+        MetroInfoMapper mim = sqlSession.getMapper(MetroInfoMapper.class);
+        List<MetroInfoModel> mimList = mim.selectAllStationByCityId("101020100");
+        for (int i = 0; i < mimList.size(); i++) {
+            shMetroMap.put(mimList.get(i).getStationId(), mimList.get(i).getStationName());
+        }
+        System.out.println(mimList.size());
+        //生成 data model
+        List<MetroModel.Data> list = new ArrayList<>();
+        for (int i = 0; i < cObj.getData().getTotal(); i++) {
+            MetroModel.Data data = new MetroModel.Data();
+            data.setDestinationStationId(cObj.getData().getList()[i].getD());
+            data.setNo(cObj.getData().getList()[i].getNo());
+            data.setInterchangeDuration(cObj.getData().getList()[i].getPttm());
+            data.setPassedStationAmount(cObj.getData().getList()[i].getPsnm());
+            data.setOriginStationId(cObj.getData().getList()[i].getO());
+            data.setOlasttime(cObj.getData().getList()[i].getOlasttime());
+            data.setPassedStationId(cObj.getData().getList()[i].getPsid());
+            data.setLttm(cObj.getData().getList()[i].getLttm());
+            data.setInterchangeStationId(cObj.getData().getList()[i].getPtid());
+            data.setLstm(cObj.getData().getList()[i].getLstm());
+            data.setPassedDuration(cObj.getData().getList()[i].getPstm());
+            data.setInterchangeLine(cObj.getData().getList()[i].getPlid());
+            data.setBstm(cObj.getData().getList()[i].getBstm());
+            data.setPrice(pObj.getData().getP());
+            list.add(data);
+        }
+        obj.setData(list);
+        return obj;
+    }
+
+
 }
