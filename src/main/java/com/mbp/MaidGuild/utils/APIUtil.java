@@ -26,6 +26,13 @@ public class APIUtil {
                 con.setRequestProperty(entry.getKey(), entry.getValue());
             }
         }
+        //伪造浏览器请求以避免 503
+        con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36");
+        con.setRequestProperty("Content-Type", "text/plain; charset=utf-8");
+        con.setRequestProperty("Accept", "*/*");
+        con.setRequestProperty("DNT", "1");
+        //con.setRequestProperty("Accept-Encoding", "gzip, deflate, sdch");
+        con.setRequestProperty("Accept-Language", "zh-CN,zh;q=0.8,en;q=0.6,ja;q=0.4,zh-TW;q=0.2");
         InputStream in = con.getInputStream();
         String encoding = con.getContentEncoding();
         encoding = encoding == null ? "UTF-8" : encoding;

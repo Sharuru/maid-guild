@@ -1,12 +1,5 @@
 package com.mbp.MaidGuild.model;
 
-import com.mbp.MaidGuild.dao.MetroInfoMapper;
-import com.mbp.MaidGuild.utils.MyBatisUtil;
-import com.mbp.MaidGuild.web.TestController;
-import org.apache.ibatis.session.SqlSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 
 /**
@@ -38,24 +31,24 @@ public class MetroModel {
     }
 
     public static class Data {
-        //终点站 ID
-        String destinationStationId;
+        //终点站
+        String destinationStationName;
         //结果编号
         String no;
         //按线路分换乘时间
         String interchangeDuration;
         //途经站数
         String passedStationAmount;
-        //始发站 ID
-        String originStationId;
+        //始发站
+        String originStationName;
         //未知
         String olasttime;
-        //站点 ID 路径
-        String passedStationId;
+        //站点路径
+        String passedStationName;
         //未知
         String lttm;
-        //换乘站点 ID
-        String interchangeStationId;
+        //换乘站点
+        String interchangeStationName;
         //未知
         String lstm;
         //经过时间
@@ -67,12 +60,12 @@ public class MetroModel {
         //票价
         String price;
 
-        public String getDestinationStationId() {
-            return destinationStationId;
+        public String getDestinationStationName() {
+            return destinationStationName;
         }
 
-        public void setDestinationStationId(String destinationStationId) {
-            this.destinationStationId = destinationStationId;
+        public void setDestinationStationName(String destinationStationName) {
+            this.destinationStationName = destinationStationName;
         }
 
         public String getNo() {
@@ -99,12 +92,12 @@ public class MetroModel {
             this.passedStationAmount = passedStationAmount;
         }
 
-        public String getOriginStationId() {
-            return originStationId;
+        public String getOriginStationName() {
+            return originStationName;
         }
 
-        public void setOriginStationId(String originStationId) {
-            this.originStationId = originStationId;
+        public void setOriginStationName(String originStationName) {
+            this.originStationName = originStationName;
         }
 
         public String getOlasttime() {
@@ -115,12 +108,12 @@ public class MetroModel {
             this.olasttime = olasttime;
         }
 
-        public String getPassedStationId() {
-            return passedStationId;
+        public String getPassedStationName() {
+            return passedStationName;
         }
 
-        public void setPassedStationId(String passedStationId) {
-            this.passedStationId = passedStationId;
+        public void setPassedStationName(String passedStationName) {
+            this.passedStationName = passedStationName;
         }
 
         public String getLttm() {
@@ -131,12 +124,12 @@ public class MetroModel {
             this.lttm = lttm;
         }
 
-        public String getInterchangeStationId() {
-            return interchangeStationId;
+        public String getInterchangeStationName() {
+            return interchangeStationName;
         }
 
-        public void setInterchangeStationId(String interchangeStationId) {
-            this.interchangeStationId = interchangeStationId;
+        public void setInterchangeStationName(String interchangeStationName) {
+            this.interchangeStationName = interchangeStationName;
         }
 
         public String getLstm() {
