@@ -14,11 +14,14 @@ import com.mbp.MaidGuild.utils.MyBatisUtil;
 import com.mbp.MaidGuild.web.TestController;
 import org.apache.commons.io.output.StringBuilderWriter;
 import org.apache.ibatis.reflection.SystemMetaObject;
+import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,17 +132,36 @@ public class TravelService {
         //首先先获取原始 Json
         //路径
         ShMetroModel.ShMetroCJson cObj = null;
+        String pass = null;
         try {
             Gson gson = new Gson();
-            cObj = gson.fromJson(APIUtil.readUrl("http://service.shmetro.com/i/c?o=" + o + "&d=" + d + "&t=" + t, null), ShMetroModel.ShMetroCJson.class);
+            String fuck = APIUtil.readUrl("http://service.shmetro.com/i/c?o=" + o + "&d=" + d + "&t=" + t, null);
+            System.out.println("Res is:" + fuck);
+            //FUCK YUNDUN
+            //TODO NEED FURTHER DEVELOPING
+            if ("<html>".equals(fuck.substring(0, 6))) {
+                System.out.println("In yundun");
+                System.out.println("Script head:" + fuck.indexOf("window.onload="));
+                System.out.println("Script tail:" + fuck.indexOf("</script>"));
+                System.out.println("Script is: " + fuck.substring(fuck.indexOf("window.onload=") + 14, fuck.indexOf("</script>")));
+                ScriptEngineManager sem = new ScriptEngineManager();
+                ScriptEngine js = sem.getEngineByExtension("js");
+                String script = fuck.substring(fuck.indexOf("window.onload=") + 14, fuck.indexOf("</script>"));
+                System.out.println(script.indexOf("eval(\"qo=eval;qo(po);\");"));
+                script = script.substring(0, script.indexOf("eval(\"qo=eval;qo(po);\");")) + " return po;" + "}";
+                //script = script.replaceAll("eval(\"qo=eval;qo(po);\");", "return po;");
+                System.out.println("New script is:  " + script);
+                Object eval = js.eval(script);
+                pass = eval.toString().substring(17, eval.toString().length() - 1);
+                System.out.println("New token is: " + pass);
+            }
+            fuck = APIUtil.readUrl("http://service.shmetro.com" + pass, null);
+            System.out.println("New fuck is: " + fuck);
+            cObj = gson.fromJson(fuck, ShMetroModel.ShMetroCJson.class);
+            //cObj = gson.fromJson(APIUtil.readUrl("http://service.shmetro.com/i/c?o=" + o + "&d=" + d + "&t=" + t, null), ShMetroModel.ShMetroCJson.class);
         } catch (Exception e) {
+            System.out.println("cObj error");
             logger.error(e.getMessage());
-        }
-        //延迟
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
         //票价
         ShMetroModel.ShMetroPJson pObj = null;
@@ -147,6 +169,7 @@ public class TravelService {
             Gson gson = new Gson();
             pObj = gson.fromJson(APIUtil.readUrl("http://service.shmetro.com/i/p?o=" + o + "&d=" + d + "&t=" + t, null), ShMetroModel.ShMetroPJson.class);
         } catch (Exception e) {
+            System.out.println("pObj error");
             logger.error(e.getMessage());
         }
         //拼接
