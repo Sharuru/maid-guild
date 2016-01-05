@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,33 +133,14 @@ public class TravelService {
         //首先先获取原始 Json
         //路径
         ShMetroModel.ShMetroCJson cObj = null;
-        String pass = null;
         try {
             Gson gson = new Gson();
-            String fuck = APIUtil.readUrl("http://service.shmetro.com/i/c?o=" + o + "&d=" + d + "&t=" + t, null);
-            System.out.println("Res is:" + fuck);
-            //FUCK YUNDUN
-            //TODO NEED FURTHER DEVELOPING
-            if ("<html>".equals(fuck.substring(0, 6))) {
-                System.out.println("In yundun");
-                System.out.println("Script head:" + fuck.indexOf("window.onload="));
-                System.out.println("Script tail:" + fuck.indexOf("</script>"));
-                System.out.println("Script is: " + fuck.substring(fuck.indexOf("window.onload=") + 14, fuck.indexOf("</script>")));
-                ScriptEngineManager sem = new ScriptEngineManager();
-                ScriptEngine js = sem.getEngineByExtension("js");
-                String script = fuck.substring(fuck.indexOf("window.onload=") + 14, fuck.indexOf("</script>"));
-                System.out.println(script.indexOf("eval(\"qo=eval;qo(po);\");"));
-                script = script.substring(0, script.indexOf("eval(\"qo=eval;qo(po);\");")) + " return po;" + "}";
-                //script = script.replaceAll("eval(\"qo=eval;qo(po);\");", "return po;");
-                System.out.println("New script is:  " + script);
-                Object eval = js.eval(script);
-                pass = eval.toString().substring(17, eval.toString().length() - 1);
-                System.out.println("New token is: " + pass);
+            String cJsonStr = APIUtil.readUrl("http://service.shmetro.com/i/c?o=" + o + "&d=" + d + "&t=" + t, null);
+            //云盾 CC 防御处理
+            if ("<html>".equals(cJsonStr.substring(0, 6))) {
+                cJsonStr = breakYunDun(cJsonStr);
             }
-            fuck = APIUtil.readUrl("http://service.shmetro.com" + pass, null);
-            System.out.println("New fuck is: " + fuck);
-            cObj = gson.fromJson(fuck, ShMetroModel.ShMetroCJson.class);
-            //cObj = gson.fromJson(APIUtil.readUrl("http://service.shmetro.com/i/c?o=" + o + "&d=" + d + "&t=" + t, null), ShMetroModel.ShMetroCJson.class);
+            cObj = gson.fromJson(cJsonStr, ShMetroModel.ShMetroCJson.class);
         } catch (Exception e) {
             System.out.println("cObj error");
             logger.error(e.getMessage());
@@ -167,7 +149,11 @@ public class TravelService {
         ShMetroModel.ShMetroPJson pObj = null;
         try {
             Gson gson = new Gson();
-            pObj = gson.fromJson(APIUtil.readUrl("http://service.shmetro.com/i/p?o=" + o + "&d=" + d + "&t=" + t, null), ShMetroModel.ShMetroPJson.class);
+            String pJsonStr = APIUtil.readUrl("http://service.shmetro.com/i/p?o=" + o + "&d=" + d + "&t=" + t, null);
+            if ("<html>".equals(pJsonStr.substring(0, 6))) {
+                pJsonStr = breakYunDun(pJsonStr);
+            }
+            pObj = gson.fromJson(pJsonStr, ShMetroModel.ShMetroPJson.class);
         } catch (Exception e) {
             System.out.println("pObj error");
             logger.error(e.getMessage());
@@ -177,6 +163,7 @@ public class TravelService {
         //生成 data model
         List<MetroModel.Data> list = new ArrayList<>();
         for (int i = 0; i < cObj.getData().getTotal(); i++) {
+            //总觉得这里的实现很糟糕 :(
             MetroModel.Data data = new MetroModel.Data();
             data.setDestinationStationName(trimStationIdForShMetro(cObj.getData().getList()[i].getD(), "Single"));
             data.setNo(cObj.getData().getList()[i].getNo());
@@ -251,5 +238,28 @@ public class TravelService {
             }
         }
         return raw;
+    }
+
+    public String breakYunDun(String rawJs) {
+        //提取 JS 代码
+        String script = rawJs.substring(rawJs.indexOf("window.onload=") + 14, rawJs.indexOf("</script>"));
+        //新建 Script engine 实例
+        ScriptEngineManager sem = new ScriptEngineManager();
+        ScriptEngine js = sem.getEngineByExtension("js");
+        //修改 JS 代码
+        script = script.substring(0, script.indexOf("eval(\"qo=eval;qo(po);\");")) + " return po;" + "}";
+        Object eval = null;
+        try {
+            eval = js.eval(script);
+        } catch (ScriptException e) {
+           System.out.println("ERR_JS_EXECUTE");
+        }
+        String pass = eval.toString().substring(17, eval.toString().length() - 1);
+        try {
+            rawJs = APIUtil.readUrl("http://service.shmetro.com" + pass, null);
+        } catch (Exception e) {
+            System.out.println("ERR_READ_URL");
+        }
+        return rawJs;
     }
 }
