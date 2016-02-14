@@ -17,10 +17,21 @@ import java.util.List;
 public class ModuleListService {
     //日志记录支持
     private final Logger logger = LoggerFactory.getLogger(TestController.class);
-    SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
-    ModuleListMapper mlm = sqlSession.getMapper(ModuleListMapper.class);
+
 
     List<String> selectModuleListByCityCode(String cityCode) {
-        return mlm.selectModuleListByCityCode(cityCode);
+        SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+        ModuleListMapper mlm = sqlSession.getMapper(ModuleListMapper.class);
+        List<String> moduleList = null;
+        try {
+            moduleList = mlm.selectModuleListByCityCode(cityCode);
+            sqlSession.commit();
+        } catch (Exception e) {
+            sqlSession.rollback();
+            logger.error(e.getMessage());
+        } finally {
+            sqlSession.close();
+        }
+        return moduleList;
     }
 }

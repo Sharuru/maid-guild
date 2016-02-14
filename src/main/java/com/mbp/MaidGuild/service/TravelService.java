@@ -190,9 +190,20 @@ public class TravelService {
         if (shMetroMap.size() == 0) {
             SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
             MetroInfoMapper mim = sqlSession.getMapper(MetroInfoMapper.class);
-            List<MetroInfoModel> mimList = mim.selectAllStationByCityId("101020100");
-            for (MetroInfoModel currObj : mimList) {
-                shMetroMap.put(currObj.getStationId(), currObj.getStationName());
+            List<MetroInfoModel> mimList = null;
+            try {
+                mimList = mim.selectAllStationByCityId("101020100");
+                sqlSession.commit();
+            } catch (Exception e) {
+                sqlSession.rollback();
+                logger.error(e.getMessage());
+            } finally {
+                sqlSession.close();
+            }
+            if (mimList != null) {
+                for (MetroInfoModel currObj : mimList) {
+                    shMetroMap.put(currObj.getStationId(), currObj.getStationName());
+                }
             }
         }
         //单一去0:0111 -> 111 -> STATION_NAME
@@ -252,7 +263,7 @@ public class TravelService {
         try {
             eval = js.eval(script);
         } catch (ScriptException e) {
-           System.out.println("ERR_JS_EXECUTE");
+            System.out.println("ERR_JS_EXECUTE");
         }
         String pass = eval.toString().substring(17, eval.toString().length() - 1);
         try {

@@ -16,8 +16,6 @@ public class APIKeyService {
 
     //日志记录支持
     private final Logger logger = LoggerFactory.getLogger(TestController.class);
-    SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
-    APIKeyMapper akm = sqlSession.getMapper(APIKeyMapper.class);
 
     /**
      * 通过提供方字段获取可用 API KEY。
@@ -26,7 +24,19 @@ public class APIKeyService {
      * @return API KEY
      */
     String getUsableAPIKeyByProvider(String provider) {
-        return akm.selectUsableAPIKeyByProvider(provider);
+        SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+        APIKeyMapper akm = sqlSession.getMapper(APIKeyMapper.class);
+        String apiKey = null;
+        try {
+            apiKey = akm.selectUsableAPIKeyByProvider(provider);
+            sqlSession.commit();
+        } catch (Exception e) {
+            sqlSession.rollback();
+            logger.error(e.getMessage());
+        } finally {
+            sqlSession.close();
+        }
+        return apiKey;
     }
 
 }
