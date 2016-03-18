@@ -244,7 +244,11 @@ public class TravelService {
                         appendFlag = !appendFlag;
                     }
                 }
-                raw = strb.toString().substring(0, strb.toString().length() - 1);
+                if(strb.length() != 0){
+                    raw = strb.toString().substring(0, strb.toString().length() - 1);
+                } else {
+                    raw = strb.toString();
+                }
                 break;
             }
         }
