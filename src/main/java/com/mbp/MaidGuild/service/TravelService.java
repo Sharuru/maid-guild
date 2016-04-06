@@ -39,9 +39,9 @@ public class TravelService {
     //日志记录支持
     private final Logger logger = LoggerFactory.getLogger(TestController.class);
     //服务声明
-    APIKeyService apiKeyService = new APIKeyService();
+    private APIKeyService apiKeyService = new APIKeyService();
 
-    Map<String, String> shMetroMap = new HashMap<>();
+    private Map<String, String> shMetroMap = new HashMap<>();
 
     public LongDBusJson getLongDBusJson(String from, String to) {
         String jsonStr;
@@ -185,7 +185,7 @@ public class TravelService {
         return obj;
     }
 
-    public String trimStationIdForShMetro(String raw, String trimType) {
+    private String trimStationIdForShMetro(String raw, String trimType) {
         //查询字典没有数据的场合
         if (shMetroMap.size() == 0) {
             SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
@@ -244,7 +244,7 @@ public class TravelService {
                         appendFlag = !appendFlag;
                     }
                 }
-                if(strb.length() != 0){
+                if (strb.length() != 0) {
                     raw = strb.toString().substring(0, strb.toString().length() - 1);
                 } else {
                     raw = strb.toString();
@@ -255,21 +255,38 @@ public class TravelService {
         return raw;
     }
 
-    public String breakYunDun(String rawJs) {
+    private String breakYunDun(String rawJs) {
+        logger.info("breakYunDun() engage...");
         //提取 JS 代码
-        String script = rawJs.substring(rawJs.indexOf("window.onload=") + 14, rawJs.indexOf("</script>"));
+        String rawScript = rawJs.substring(rawJs.indexOf("window.onload=") + 14, rawJs.indexOf("</script>"));
         //新建 Script engine 实例
         ScriptEngineManager sem = new ScriptEngineManager();
         ScriptEngine js = sem.getEngineByExtension("js");
         //修改 JS 代码
-        script = script.substring(0, script.indexOf("eval(\"qo=eval;qo(po);\");")) + " return po;" + "}";
+        String script = rawScript.substring(27, rawScript.indexOf("eval(\"qo=eval;qo(po);\");"));
+        //获得调用参数
+        String regEx = "function .+?\\((.+?)\\) \\{";
+        Pattern pattern = Pattern.compile(regEx);
+        Matcher matcher = pattern.matcher(rawScript);
+        matcher.find();
+        String jsParamName = matcher.group(1);
+        //获得调用值
+        regEx = "setTimeout\\(.+?\\((.+?)\\)";
+        pattern = Pattern.compile(regEx);
+        matcher = pattern.matcher(rawScript);
+        matcher.find();
+        String jsParamValue = matcher.group(1);
+        //替换 script 对应值
+        script = script.substring(16);
+        script = script.replaceAll(jsParamName + "\\);", jsParamValue + "\\);");
         Object eval = null;
         try {
             eval = js.eval(script);
         } catch (ScriptException e) {
             System.out.println("ERR_JS_EXECUTE");
+            e.printStackTrace();
         }
-        String pass = eval.toString().substring(17, eval.toString().length() - 1);
+        String pass = eval != null ? eval.toString().substring(17, eval.toString().length() - 1) : null;
         try {
             rawJs = APIUtil.readUrl("http://service.shmetro.com" + pass, null);
         } catch (Exception e) {
