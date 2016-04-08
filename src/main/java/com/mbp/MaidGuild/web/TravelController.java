@@ -1,5 +1,7 @@
 package com.mbp.MaidGuild.web;
 
+import com.mbp.MaidGuild.model.BusInfoModel;
+import com.mbp.MaidGuild.model.BusModel;
 import com.mbp.MaidGuild.model.LongDBusModel.LongDBusJson;
 import com.mbp.MaidGuild.model.MetroModel;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByIdJson;
@@ -61,5 +63,19 @@ public class TravelController {
     public MetroModel.MetroJson shMetro(@RequestParam String o, @RequestParam String d, @RequestParam String t ){
         logger.info("In /shMetro $o:{} $d{} $t{}",o,d,t);
         return travelService.getShanghaiMetroJson(o,d,t);
+    }
+
+    @RequestMapping(value="/busInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public BusInfoModel.BusInfoJson busInfo(@RequestParam String city,String bus){
+        logger.info("In /busInfo $cityStr:{} $busCode:{}",city,bus);
+        return travelService.getBusJson(city, bus);
+    }
+
+    @RequestMapping(value="/busList", method = RequestMethod.GET)
+    @ResponseBody
+    public BusModel.BusJson busList(@RequestParam String city, String station){
+        logger.info("In /busInfo $cityStr:{} $station:{}",city,station);
+        return travelService.getBusListJson(city, station);
     }
 }

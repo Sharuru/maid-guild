@@ -2,10 +2,8 @@ package com.mbp.MaidGuild.service;
 
 import com.google.gson.Gson;
 import com.mbp.MaidGuild.dao.MetroInfoMapper;
+import com.mbp.MaidGuild.model.*;
 import com.mbp.MaidGuild.model.LongDBusModel.LongDBusJson;
-import com.mbp.MaidGuild.model.MetroInfoModel;
-import com.mbp.MaidGuild.model.MetroModel;
-import com.mbp.MaidGuild.model.ShMetroModel;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByIdJson;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByStationJson;
 import com.mbp.MaidGuild.model.RoadsModel.RoadsJson;
@@ -293,5 +291,32 @@ public class TravelService {
             System.out.println("ERR_READ_URL");
         }
         return rawJs;
+    }
+
+    public BusInfoModel.BusInfoJson getBusJson(String cityStr, String busCode) {
+        String jsonStr;
+        BusInfoModel.BusInfoJson obj = null;
+        //拼接请求字符串获得内容
+        try {
+            jsonStr = APIUtil.readUrl("http://op.juhe.cn/189/bus/busline?key=" + apiKeyService.getUsableAPIKeyByProvider("BUS") + "&city=" + URLEncoder.encode(cityStr, "UTF-8") + "&bus=" + URLEncoder.encode(busCode, "UTF-8"), null);
+            Gson gson = new Gson();
+            obj = gson.fromJson(jsonStr, BusInfoModel.BusInfoJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return obj;
+    }
+
+    public BusModel.BusJson getBusListJson(String cityStr, String stationStr) {
+        String jsonStr;
+        BusModel.BusJson obj = null;
+        try {
+            jsonStr = APIUtil.readUrl("http://op.juhe.cn/189/bus/station?key=" + apiKeyService.getUsableAPIKeyByProvider("BUS") + "&city=" + URLEncoder.encode(cityStr, "UTF-8") + "&station=" + URLEncoder.encode(stationStr, "UTF-8"), null);
+            Gson gson = new Gson();
+            obj = gson.fromJson(jsonStr, BusModel.BusJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return obj;
     }
 }
