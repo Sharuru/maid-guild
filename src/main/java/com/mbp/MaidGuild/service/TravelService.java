@@ -319,4 +319,17 @@ public class TravelService {
         }
         return obj;
     }
+
+    public OutingModel.drivingJson getDrivingInfo(String origin, String destination, String origin_region, String destination_region) {
+        String jsonStr;
+        OutingModel.drivingJson obj = null;
+        try {
+            jsonStr = APIUtil.readUrl("http://api.map.baidu.com/direction/v1?mode=driving&origin=" + URLEncoder.encode(origin, "UTF-8") + "&destination=" + URLEncoder.encode(destination, "UTF-8") + "&origin_region=" + URLEncoder.encode(origin_region, "UTF-8") + "&destination_region=" + URLEncoder.encode(destination_region, "UTF-8") + "&output=json&ak=" + apiKeyService.getUsableAPIKeyByProvider("BAIDUWEB"), null);
+            Gson gson = new Gson();
+            obj = gson.fromJson(jsonStr, OutingModel.drivingJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return obj;
+    }
 }

@@ -4,6 +4,7 @@ import com.mbp.MaidGuild.model.BusInfoModel;
 import com.mbp.MaidGuild.model.BusModel;
 import com.mbp.MaidGuild.model.LongDBusModel.LongDBusJson;
 import com.mbp.MaidGuild.model.MetroModel;
+import com.mbp.MaidGuild.model.OutingModel;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByIdJson;
 import com.mbp.MaidGuild.model.TrainTimeModel.TrainTimeByStationJson;
 import com.mbp.MaidGuild.model.RoadsModel.RoadsJson;
@@ -58,24 +59,32 @@ public class TravelController {
         return travelService.getRoadsJson(location);
     }
 
-    @RequestMapping(value="/metro/shanghai", method = RequestMethod.GET)
+    @RequestMapping(value = "/metro/shanghai", method = RequestMethod.GET)
     @ResponseBody
-    public MetroModel.MetroJson shMetro(@RequestParam String o, @RequestParam String d, @RequestParam String t ){
-        logger.info("In /shMetro $o:{} $d{} $t{}",o,d,t);
-        return travelService.getShanghaiMetroJson(o,d,t);
+    public MetroModel.MetroJson shMetro(@RequestParam String o, @RequestParam String d, @RequestParam String t) {
+        logger.info("In /shMetro $o:{} $d:{} $t:{}", o, d, t);
+        return travelService.getShanghaiMetroJson(o, d, t);
     }
 
-    @RequestMapping(value="/busInfo", method = RequestMethod.GET)
+    @RequestMapping(value = "/busInfo", method = RequestMethod.GET)
     @ResponseBody
-    public BusInfoModel.BusInfoJson busInfo(@RequestParam String city,String bus){
-        logger.info("In /busInfo $cityStr:{} $busCode:{}",city,bus);
+    public BusInfoModel.BusInfoJson busInfo(@RequestParam String city, String bus) {
+        logger.info("In /busInfo $cityStr:{} $busCode:{}", city, bus);
         return travelService.getBusJson(city, bus);
     }
 
-    @RequestMapping(value="/busList", method = RequestMethod.GET)
+    @RequestMapping(value = "/busList", method = RequestMethod.GET)
     @ResponseBody
-    public BusModel.BusJson busList(@RequestParam String city, String station){
-        logger.info("In /busInfo $cityStr:{} $station:{}",city,station);
+    public BusModel.BusJson busList(@RequestParam String city, String station) {
+        logger.info("In /busInfo $cityStr:{} $station:{}", city, station);
         return travelService.getBusListJson(city, station);
     }
+
+    @RequestMapping(value = "/outing/driving", method = RequestMethod.GET)
+    @ResponseBody
+    public OutingModel.drivingJson drivingInfo(@RequestParam String origin, String destination, String origin_region, String destination_region) {
+        logger.info("In /driving $origin:{} $destination:{} $origin_region:{} $destination_region:{}", origin, destination, origin_region, destination_region);
+        return travelService.getDrivingInfo(origin, destination, origin_region, destination_region);
+    }
+
 }
