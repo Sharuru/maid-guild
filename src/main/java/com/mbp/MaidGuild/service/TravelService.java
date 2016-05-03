@@ -332,4 +332,43 @@ public class TravelService {
         }
         return obj;
     }
+
+    public OutingModel.transitJson getTransitInfo(String origin, String destination, String region) {
+        String jsonStr;
+        OutingModel.transitJson obj = null;
+        try {
+            jsonStr = APIUtil.readUrl("http://api.map.baidu.com/direction/v1?mode=transit&origin=" + URLEncoder.encode(origin, "UTF-8") + "&destination=" + URLEncoder.encode(destination, "UTF-8") + "&region=" + URLEncoder.encode(region, "UTF-8") + "&output=json&ak=" + apiKeyService.getUsableAPIKeyByProvider("BAIDUWEB"), null);
+            Gson gson = new Gson();
+            obj = gson.fromJson(jsonStr, OutingModel.transitJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return obj;
+    }
+
+    public OutingModel.walkingJson getWalkingInfo(String origin, String destination, String region) {
+        String jsonStr;
+        OutingModel.walkingJson obj = null;
+        try {
+            jsonStr = APIUtil.readUrl("http://api.map.baidu.com/direction/v1?mode=walking&origin=" + URLEncoder.encode(origin, "UTF-8") + "&destination=" + URLEncoder.encode(destination, "UTF-8") + "&region=" + URLEncoder.encode(region, "UTF-8") + "&output=json&ak=" + apiKeyService.getUsableAPIKeyByProvider("BAIDUWEB"), null);
+            Gson gson = new Gson();
+            obj = gson.fromJson(jsonStr, OutingModel.walkingJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return obj;
+    }
+
+    public OutingModel.ridingJson getRidingInfo(String origin, String destination, String region) {
+        String jsonStr;
+        OutingModel.ridingJson obj = null;
+        try {
+            jsonStr = APIUtil.readUrl("http://api.map.baidu.com/direction/v1?mode=riding&origin=" + URLEncoder.encode(origin, "UTF-8") + "&destination=" + URLEncoder.encode(destination, "UTF-8") + "&region=" + URLEncoder.encode(region, "UTF-8") + "&output=json&ak=" + apiKeyService.getUsableAPIKeyByProvider("BAIDUWEB"), null);
+            Gson gson = new Gson();
+            obj = gson.fromJson(jsonStr, OutingModel.ridingJson.class);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return obj;
+    }
 }

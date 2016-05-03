@@ -87,4 +87,24 @@ public class TravelController {
         return travelService.getDrivingInfo(origin, destination, origin_region, destination_region);
     }
 
+    @RequestMapping(value = "/outing/transit", method = RequestMethod.GET)
+    @ResponseBody
+    public OutingModel.transitJson transitInfo(@RequestParam String origin, String destination, String region) {
+        logger.info("In /transit $origin:{} $destination:{} region:{}", origin, destination, region);
+        return travelService.getTransitInfo(origin, destination, region);
+    }
+
+    @RequestMapping(value = "/outing/walking", method = RequestMethod.GET)
+    @ResponseBody
+    public OutingModel.walkingJson walkingInfo(@RequestParam String origin, String destination, String region) {
+        logger.info("In /walking $origin:{} $destination:{} region:{}", origin, destination, region);
+        return travelService.getWalkingInfo(origin, destination, region);
+    }
+
+    @RequestMapping(value = "/outing/riding", method = RequestMethod.GET)
+    @ResponseBody
+    public OutingModel.ridingJson ridingInfo(@RequestParam String origin, String destination, String region) {
+        logger.info("In /riding $origin:{} $destination:{} region:{}", origin, destination, region);
+        return travelService.getRidingInfo(origin, destination, region);
+    }
 }
