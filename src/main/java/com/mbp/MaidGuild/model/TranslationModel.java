@@ -7,45 +7,31 @@ public class TranslationModel {
 
     public static class TranslationJson {
         //状态码
-        String errNum;
+        String error_code;
         //状态信息
-        String errMsg;
-        //返回结果
-        RetData retData;
-
-        public String getErrNum() {
-            return errNum;
-        }
-
-        public void setErrNum(String errNum) {
-            this.errNum = errNum;
-        }
-
-        public String getErrMsg() {
-            return errMsg;
-        }
-
-        public void setErrMsg(String errMsg) {
-            this.errMsg = errMsg;
-        }
-
-        public RetData getRetData() {
-            return retData;
-        }
-
-        public void setRetData(RetData retData) {
-            this.retData = retData;
-        }
-    }
-
-
-    public static class RetData {
+        String error_msg;
         //源语言
         String from;
         //目标语言
         String to;
         //翻译结果
         Trans_result[] trans_result;
+
+        public String getError_code() {
+            return error_code;
+        }
+
+        public void setError_code(String error_code) {
+            this.error_code = error_code;
+        }
+
+        public String getError_msg() {
+            return error_msg;
+        }
+
+        public void setError_msg(String error_msg) {
+            this.error_msg = error_msg;
+        }
 
         public String getFrom() {
             return from;
